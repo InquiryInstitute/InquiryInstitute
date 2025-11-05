@@ -1,0 +1,42 @@
+# Sensitive information
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Personal information
+*SSN*
+*EIN*
+*bank*
+*account*
+*routing*
+
+# Tax documents (private)
+*1040*
+*1099*
+*W-2*
+
+# Legal documents (private/draft)
+*confidential*
+*draft*
+*private*
+
+# Environment
+.env
+.env.local
+.env*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+~$*
