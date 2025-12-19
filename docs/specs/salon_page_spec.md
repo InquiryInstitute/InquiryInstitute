@@ -91,6 +91,33 @@ On the left edge of the page, there are two icons. **The latter (second) icon** 
    - **Risks/Deps**: short list (e.g., assets, store integration, calendar integration)
    - **Last updated**: date stamp
 
+### Data source: OpenCollective (required for initiative text)
+The **initiative text** shown in this panel (especially “Estimated cost to get there” and “How the initiative is doing”) must be sourced from **OpenCollective**, so non-engineers can update it without deploying code.
+
+- **Source-of-truth**: an OpenCollective **Update** post (longform text) dedicated to this initiative.
+- **Selection rule** (pick one; recommended is the slug rule):
+  - **Recommended**: fetch the Update by a known **slug** (e.g. `salon-page-initiative`).
+  - Alternative: fetch the most recent Update that contains a specific tag/marker in the title (e.g. `[Initiative] Salon Page`).
+- **Rendering**:
+  - Render the Update body as **sanitized HTML/Markdown** (no unsafe HTML injection).
+  - Preserve headings and lists so the content can map cleanly onto the three required panel sections.
+- **Fallback**:
+  - If OpenCollective is unavailable, show the “Suggested default values” below plus a small note: “Initiative panel is temporarily unavailable.”
+
+### Suggested Update template (OpenCollective post body)
+Maintain the Update body using these headings (so the UI can render it verbatim, or optionally parse into sub-sections):
+- `## What this page should do`
+- `## Estimated cost to get there`
+- `## How the initiative is doing`
+
+### Implementation notes (for the website repo)
+- Use the OpenCollective **GraphQL API** to fetch the Update content server-side.
+- Configure via environment variables:
+  - `OPENCOLLECTIVE_COLLECTIVE_SLUG` (e.g. `inquiry-institute`)
+  - `OPENCOLLECTIVE_INITIATIVE_UPDATE_SLUG` (e.g. `salon-page-initiative`)
+  - `OPENCOLLECTIVE_API_TOKEN` (optional; only if needed for private/unlisted content)
+- Add caching (e.g., 5–30 minutes) to avoid rate limits and keep page loads fast.
+
 ### Suggested default values (fill in during implementation)
 - **What this page should do**: explain Feminine Salon; link to seasonal pages; explain online participation; link to Box and Circle.
 - **Estimated cost**: TBD by Codex after confirming store + calendar integration requirements.
